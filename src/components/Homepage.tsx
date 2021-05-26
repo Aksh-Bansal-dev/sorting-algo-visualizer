@@ -1,4 +1,3 @@
-import produce from "immer";
 import React, { useEffect, useState } from "react";
 import Lines from "./Lines";
 
@@ -14,56 +13,29 @@ const Homepage: React.FC = () => {
 
   // set interval aur state
 
-  const [looper, setLooper] = useState<NodeJS.Timeout | undefined>();
   useEffect(() => {
     if (start) {
-      let i = 0;
-      let j = 0;
-      setLooper(
-        setInterval(() => {
-          if (!start) {
-            clearInterval(looper!);
-            setLooper(undefined);
-          }
-          console.log("loopint");
-          //   if (j != 0) {
-          // const selArr2 = produce(arr, (draftArr) => {
-          //   draftArr[j - 1].selected = false;
-          // });
-          // setArr(selArr2);
-          //   }
-          const selArr1 = produce(arr, (draftArr) => {
-            console.log(i + " --" + j);
-            draftArr[j].selected = true;
-          });
-          setArr(selArr1);
-
-          if (arr[i].val > arr[j].val) {
-            // console.log(i + " " + j);
-            const newArr = produce(arr, (draftArr) => {
-              [draftArr[i], draftArr[j]] = [arr[j], arr[i]];
+      // setArr(() => {
+      //   let newArr = [...arr];
+      //   [newArr[0], newArr[1]] = [newArr[1], newArr[0]];
+      //   console.log(newArr);
+      //   return newArr;
+      // });
+      for (let i = 0; i < arr.length - 1; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+          setTimeout(() => {
+            setArr((arr) => {
+              const newArr = arr.slice();
+              if (newArr[i].val > newArr[j].val) {
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+              }
+              // console.log(newArr);
+              return newArr;
             });
-            setArr(newArr);
-          }
-
-          j = j + 1;
-          if (j == arr.length) {
-            const sortArr = produce(arr, (draftArr) => {
-              console.log(i + " nono " + j);
-              draftArr[i].sorted = true;
-            });
-            setArr(sortArr);
-            j = i + 1;
-            i = i + 1;
-          }
-          if (i == arr.length - 1) {
-            setStart(false);
-          }
-        }, 1000)
-      );
-    } else {
-      clearInterval(looper!);
-      setLooper(undefined);
+          }, 100 * (i * 10 + j));
+        }
+      }
+      // setArr(newArr);
     }
   }, [start]);
   return (
