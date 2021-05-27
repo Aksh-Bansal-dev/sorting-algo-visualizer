@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 interface LinesProps {
   len: { val: number; selected: boolean; sorted: boolean };
@@ -7,15 +7,13 @@ const Lines: React.FC<LinesProps> = ({ len }) => {
   return (
     <span
       style={{
-        minWidth: 5,
+        width: 6,
         background: len.sorted ? "teal" : len.selected ? "lightblue" : "coral",
         margin: 1,
-        minHeight: len.val,
+        height: 20 + 3 * len.val,
         padding: 2,
       }}
-    >
-      {len.val}
-    </span>
+    ></span>
   );
 };
 

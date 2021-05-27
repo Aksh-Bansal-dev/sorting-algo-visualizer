@@ -1,46 +1,52 @@
 import React, { useEffect, useState } from "react";
+import { bucketSort } from "../utils/bucketSort";
+import { genRandomArr } from "../utils/genRandomArr";
+import { mergeSort } from "../utils/mergeSort";
 import Lines from "./Lines";
 
 const Homepage: React.FC = () => {
   const [start, setStart] = useState(false);
-  const [arr, setArr] = useState(() => {
-    let arr = [];
-    for (let i = 20; i >= 10; i--) {
-      arr.push({ val: i, sorted: false, selected: false });
-    }
-    return arr;
-  });
+  const [maxLen, setMaxLen] = useState(90);
+  const [arr, setArr] = useState(genRandomArr(maxLen));
 
-  // set interval aur state
+  const [algo, setAlgo] = useState("bucket");
+  const resetAll = () => {
+    window.location.reload();
+  };
 
   useEffect(() => {
     if (start) {
-      // setArr(() => {
-      //   let newArr = [...arr];
-      //   [newArr[0], newArr[1]] = [newArr[1], newArr[0]];
-      //   console.log(newArr);
-      //   return newArr;
-      // });
-      for (let i = 0; i < arr.length - 1; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-          setTimeout(() => {
-            setArr((arr) => {
-              const newArr = arr.slice();
-              if (newArr[i].val > newArr[j].val) {
-                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-              }
-              // console.log(newArr);
-              return newArr;
-            });
-          }, 100 * (i * 10 + j));
-        }
+      if (algo === "bucket") {
+        bucketSort(arr, setArr);
+      } else {
+        mergeSort(arr, setArr);
       }
-      // setArr(newArr);
+      // console.log(arr);
     }
-  }, [start]);
+    if (!start && maxLen !== arr.length) {
+      setArr(genRandomArr(maxLen));
+    }
+  }, [start, maxLen]);
   return (
     <div>
-      <button onClick={() => setStart(!start)}>START</button>
+      <button onClick={() => setStart(true)}>START</button>
+      <input
+        type="number"
+        name="maxLen"
+        id="maxLen"
+        value={maxLen}
+        onChange={(e) => setMaxLen(parseInt(e.target.value))}
+      />
+      <select
+        name="algo"
+        id="algo"
+        value={algo}
+        onChange={(e) => setAlgo(e.target.value)}
+      >
+        <option value="bucket">Selection Sort</option>
+        <option value="merge">Merge Sort</option>
+      </select>
+      <button onClick={resetAll}>Restart</button>
       <div
         style={{
           display: "flex",
