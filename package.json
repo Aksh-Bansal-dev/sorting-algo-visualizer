@@ -1,5 +1,5 @@
 {
-  "name": "sorting-visualizer",
+  "name": "sorting-algo-visualizer",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "immer": "^9.0.2",
     "next": "10.2.3",
     "react": "17.0.2",
     "react-dom": "17.0.2"
