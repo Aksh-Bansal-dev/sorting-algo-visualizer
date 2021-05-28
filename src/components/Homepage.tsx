@@ -56,9 +56,9 @@ const Homepage: React.FC = () => {
         <option value="merge">Merge Sort</option>
       </select>
       <button onClick={resetAll}>Restart</button>
-      <button onClick={() => handleSpeed(-1)}>Slow</button>
-      <span>{speed}</span>
-      <button onClick={() => handleSpeed(1)}>Fast</button>
+      <button onClick={() => handleSpeed(1)}>Slow</button>
+      <span>{3 - speed}</span>
+      <button onClick={() => handleSpeed(-1)}>Fast</button>
       <div
         style={{
           display: "flex",
