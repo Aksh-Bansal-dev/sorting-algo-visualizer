@@ -8,18 +8,27 @@ const Homepage: React.FC = () => {
   const [start, setStart] = useState(false);
   const [maxLen, setMaxLen] = useState(90);
   const [arr, setArr] = useState(genRandomArr(maxLen));
-
+  const [speed, setSpeed] = useState(1);
   const [algo, setAlgo] = useState("bucket");
   const resetAll = () => {
     window.location.reload();
   };
 
+  const handleSpeed = (op: number) => {
+    if (op === 1 && speed < 2) {
+      setSpeed(speed + 1);
+    }
+    if (op === -1 && speed > 1) {
+      setSpeed(speed - 1);
+    }
+  };
+
   useEffect(() => {
     if (start) {
       if (algo === "bucket") {
-        bucketSort(arr, setArr);
+        bucketSort(arr, setArr, speed);
       } else {
-        mergeSort(arr, setArr);
+        mergeSort(arr, setArr, speed);
       }
       // console.log(arr);
     }
@@ -47,6 +56,9 @@ const Homepage: React.FC = () => {
         <option value="merge">Merge Sort</option>
       </select>
       <button onClick={resetAll}>Restart</button>
+      <button onClick={() => handleSpeed(-1)}>Slow</button>
+      <span>{speed}</span>
+      <button onClick={() => handleSpeed(1)}>Fast</button>
       <div
         style={{
           display: "flex",

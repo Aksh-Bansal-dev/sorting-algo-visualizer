@@ -5,6 +5,7 @@ export const genRandomArr = (maxLen: number) => {
       val: Math.floor(Math.random() * 100),
       sorted: false,
       selected: false,
+      color: "var(--default)",
     });
   }
   return arr;
